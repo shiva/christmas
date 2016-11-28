@@ -1,0 +1,31 @@
+extends layout
+
+block content
+
+  .menu
+    h2 Menu
+    ul.nav.nav-pills
+      li.active
+        a(href='/') Home
+
+  h1= list.name
+
+  .list
+    if (!list.items)
+      | No Items.
+    ul
+      .item.add-task
+        form(action='/' + list._id + '/item/new', method='post')
+          input(type='hidden', value=locals._csrf, name='_csrf')
+          div.name
+            input(type='text', name='item_name', placeholder='Add a new item')
+          div.link
+            input(type='text', name='item_link', placeholder='Item link')
+          div.notes
+            input(type='text', name='item_notes', placeholder='Notes')
+          div.delete
+            input.btn.btn-primary.btn-sm(type="submit", value='add')
+      each item, index in list.items
+        .item
+          li
+            a(href=item.link)= item.name
