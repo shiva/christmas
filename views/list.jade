@@ -2,18 +2,12 @@ extends layout
 
 block content
 
-  .menu
-    h2 Menu
-    ul.nav.nav-pills
-      li.active
-        a(href='/') Home
-
   h1= list.name
 
   .list
     if (!list.items)
       | No Items.
-    ul
+    ol
       .item.add-task
         form(action='/' + list._id + '/item/new', method='post')
           input(type='hidden', value=locals._csrf, name='_csrf')
@@ -28,4 +22,13 @@ block content
       each item, index in list.items
         .item
           li
-            a(href=item.link)= item.name
+            div.item
+              div.item_name
+                if (item.link)
+                  a(href=item.link)= item.name
+                else
+                  = item.name
+              if (item.notes)
+                div.item_notes= item.notes
+              div.actions
+                a(href='/' + list._id + '/item/'+ index + '/edit')= 'edit'

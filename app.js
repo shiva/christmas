@@ -24,6 +24,11 @@ var db_uri = 'mongodb://' + process.env.DB_USER + ":" + process.env.DB_PASSWD
 
 var db = mongoskin.db(db_uri, {safe:true});
 var ObjectID = require('mongoskin').ObjectID;
+
+if (!db) {
+    console.error("Error connecting to DB. Exiting...\n");
+    process.exit(1);
+}
 var app = express();
 
 var favicon = require('serve-favicon'),
@@ -40,7 +45,7 @@ app.use(function(req, res, next) {
   req.db.wishlists = db.collection('christmas');
   next();
 })
-app.locals.appname = 'Wishlist App'
+app.locals.appname = 'Christmas Wishlists'
 app.locals.moment = require('moment');
 
 app.set('port', process.env.PORT || 3000);
@@ -76,9 +81,18 @@ app.param('list_id', function(req, res, next, listId) {
   });
 });
 
+app.param('item_id', function(req, res, next, itemId) {
+  // for now, item index is the id. simply store this
+  // in the req, since there is no way of uniquely identifying this
+  // without a list_id
+  req.item_id = itemId;
+  return next();
+});
+
 app.get('/', routes.index);
 app.get('/:list_id', lists.get);
 app.post('/:list_id/item/new', items.add);
+app.post('/:list_id/item/:item_id/edit', items.edit);
 //app.delete('/:list_id', lists.del);
 
 app.all('*', function(req, res){

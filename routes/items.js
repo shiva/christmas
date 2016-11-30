@@ -37,6 +37,10 @@ exports.add = function(req, res, next){
   );
 }
 
+exports.edit = function(req, res, next) {
+
+}
+
 /*
 exports.del = function(req, res, next) {
   req.db.wishlists.removeById(req.list._id, function(error, count) {
