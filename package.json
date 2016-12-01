@@ -21,6 +21,7 @@
     "mongodb": "^2.2.11",
     "mongoskin": "^2.1.0",
     "morgan": "~1.7.0",
+    "semantic-ui": "^2.2.6",
     "serve-favicon": "~2.3.0",
     "valid-url": "^1.0.9"
   }

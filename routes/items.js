@@ -20,9 +20,12 @@ exports.add = function(req, res, next){
     return next(new Error('Invalid name provided.'))
 
   if (validUrl.isUri(req.body.item_link)) {
-      item.link = req.body.item_link;
+      item.link = req.body.item_link
   }
-  item.notes = sanitize(req.body.item_notes);
+
+  if (req.body.item_notes) {
+    item.notes = sanitize(req.body.item_notes)
+  }
 
   req.db.wishlists.updateById(
       req.list._id,

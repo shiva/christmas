@@ -3,13 +3,17 @@ html
   head
     title= title + ' | '  + appname
     link(rel='stylesheet', href='/stylesheets/style.css')
-    link(rel="stylesheet", href='/bootstrap/bootstrap.css')
-    link(rel="stylesheet", href='/stylesheets/main.css')
+    //- link(rel="stylesheet", href='/bootstrap/bootstrap.css')
+    //- link(rel="stylesheet", href='/stylesheets/main.css')
+    link(rel="stylesheet", href='/semantic/dist/semantic.min.css')
   body
   .container
-    .navbar.navbar-default
-      .container
-        .navbar-header
-          a.navbar-brand(href='/')= appname
-    .alert.alert-dismissable
+    .ui.stackable.container.menu
+      .item
+        a(href='/')= appname
+
     block content
+
+  script(src='/javascripts/jquery.js', type="text/javascript")
+  script(src='/javascripts/main.js', type="text/javascript")
+  script(src='/semantic/dist/semantic.min.js', type="text/javascript")

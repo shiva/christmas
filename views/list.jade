@@ -1,34 +1,41 @@
 extends layout
 
 block content
+  .ui.container
+    .ui.breadcrumb
+      a(href='/').section= 'Home'
+      i.right.angle.icon.divider
+      .active.section= list.name
 
-  h1= list.name
+    h1= list.user + ' wants ...'
 
-  .list
     if (!list.items)
       | No Items.
-    ol
-      .item.add-task
-        form(action='/' + list._id + '/item/new', method='post')
-          input(type='hidden', value=locals._csrf, name='_csrf')
-          div.name
-            input(type='text', name='item_name', placeholder='Add a new item')
-          div.link
-            input(type='text', name='item_link', placeholder='Item link')
-          div.notes
-            input(type='text', name='item_notes', placeholder='Notes')
-          div.delete
-            input.btn.btn-primary.btn-sm(type="submit", value='add')
+    .ui.items
+      .item
+        .content.ui.segment
+          form(id='form_item', action='/' + list._id + '/item/new', method='post').ui.form
+            input(type='hidden', value=locals._csrf, name='_csrf').hidden
+            .field
+              input(id='fld_item_name', type='text', name='item_name', placeholder='Add a new item')
+            .field(id='fld_item_link', style='display:none')
+              input(type='text', name='item_link', placeholder='Item link')
+            .field(id='fld_item_notes', style='display:none')
+              textarea(rows='2', name='item_notes', placeholder='Notes')
+            input.ui.button(id='btn_submit', type="submit", value='Submit', style='display:none')
+    .ui.cards
       each item, index in list.items
-        .item
-          li
-            div.item
-              div.item_name
-                if (item.link)
-                  a(href=item.link)= item.name
-                else
-                  = item.name
-              if (item.notes)
-                div.item_notes= item.notes
-              div.actions
-                a(href='/' + list._id + '/item/'+ index + '/edit')= 'edit'
+        .card
+          img(src=item.image_url).ui.tiny.image
+          .content
+            .right.floated.content
+              a(href='/' + list._id + '/item/'+ index + '/edit')= 'edit'
+            .header
+              if (item.link)
+                a(href=item.link)= item.name
+              else
+                = item.name
+            if (item.notes)
+              .meta
+                span= 'Notes'
+              .description= item.notes

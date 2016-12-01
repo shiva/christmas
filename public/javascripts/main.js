@@ -28,4 +28,9 @@ $(document).ready(function() {
       }
     })
   });
+  $('#fld_item_name').focus(function(event) {
+    $('#fld_item_link').show()
+    $('#fld_item_notes').show()
+    $('#btn_submit').show()
+  })
 })

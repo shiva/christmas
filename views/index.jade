@@ -1,12 +1,17 @@
 extends layout
 
 block content
+  .ui.container
+    .ui.description= 'Click to find out what that person wishes for'
 
-  .list
     if (!wishlists)
       | No wishlists.
-    ul
+    .ui.cards
       each list, index in wishlists
-        .item
-          li
-            a(href='/'+list._id)= list.name
+        .card
+          img(src=list.image_url).ui.tiny.image
+          .content
+            .right.floated.description
+              = list.items.length
+            .header
+              a(href='/'+list._id)= list.name
