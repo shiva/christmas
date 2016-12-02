@@ -2,16 +2,17 @@ extends layout
 
 block content
   .ui.container
-    .ui.description= 'Click to find out what that person wishes for'
-
-    if (!wishlists)
-      | No wishlists.
-    .ui.cards
-      each list, index in wishlists
-        .card
-          img(src=list.image_url).ui.tiny.image
-          .content
-            .right.floated.description
-              = list.items.length
-            .header
-              a(href='/'+list._id)= list.name
+      .ui.huge.header
+        = 'Our Christmas Wishlists'
+      .ui.big.header
+        = 'Click to find out what that person wishes for'
+      if (!wishlists)
+        | No wishlists.
+      .ui.cards
+        each list, index in wishlists
+          .ui.card
+            a(href='/'+list._id).image
+              img(src='/images/profile-pics/'+list.user.toLowerCase()+'.jpg')
+            .content
+              a(href='/'+list._id).header= list.name
+              .meta= list.items.length+' items'

@@ -2,10 +2,10 @@ extends layout
 
 block content
   .ui.container
-    .ui.breadcrumb
-      a(href='/').section= 'Home'
-      i.right.angle.icon.divider
-      .active.section= list.name
+    //-.ui.breadcrumb
+    //-  a(href='/').section= 'Home'
+    //-  i.right.angle.icon.divider
+    //-  .active.section= list.name
 
     h1= list.user + ' wants ...'
 
@@ -23,6 +23,7 @@ block content
             .field(id='fld_item_notes', style='display:none')
               textarea(rows='2', name='item_notes', placeholder='Notes')
             input.ui.button(id='btn_submit', type="submit", value='Submit', style='display:none')
+            .field(id='fld_item_close', style='display:none').ui.button= 'Close'
     .ui.cards
       each item, index in list.items
         .card
@@ -37,5 +38,5 @@ block content
                 = item.name
             if (item.notes)
               .meta
-                span= 'Notes'
+                span= 'Details'
               .description= item.notes

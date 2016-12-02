@@ -32,5 +32,20 @@ $(document).ready(function() {
     $('#fld_item_link').show()
     $('#fld_item_notes').show()
     $('#btn_submit').show()
+    $('#fld_item_close').show()
   })
+  $('#fld_item_close').click(function(event) {
+    $('#fld_item_link').hide()
+    $('#fld_item_notes').hide()
+    $('#btn_submit').hide()
+    $('#fld_item_close').hide()
+  })
+
+  $('.ui.right.dropdown')
+    .dropdown()
+  ;
+
+  $('.ui.sticky')
+    .sticky()
+  ;
 })

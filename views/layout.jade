@@ -3,14 +3,18 @@ html
   head
     title= title + ' | '  + appname
     link(rel='stylesheet', href='/stylesheets/style.css')
-    //- link(rel="stylesheet", href='/bootstrap/bootstrap.css')
-    //- link(rel="stylesheet", href='/stylesheets/main.css')
     link(rel="stylesheet", href='/semantic/dist/semantic.min.css')
   body
   .container
-    .ui.stackable.container.menu
-      .item
-        a(href='/')= appname
+    .ui.sticky.menu
+      .ui.item
+        a(href='/')
+          img(src='/images/app_icon.png')
+      .ui.right.dropdown.item
+        i.content.icon
+        .menu
+          .item
+            a(href='/credits')= 'Credits'
 
     block content
 

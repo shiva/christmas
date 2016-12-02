@@ -71,10 +71,16 @@ app.use(function(req, res, next) {
   return next();
 })
 
+String.prototype.capitalizeFirstLetter = function(allWords) {
+  return this.charAt(0).toUpperCase() + this.slice(1);
+}
+
 app.param('list_id', function(req, res, next, listId) {
   req.db.wishlists.findById(listId, function(error, list){
     if (error) return next(error);
-    if (!list) return next(new Error('List is not found. id=' + list._id));
+    if (!list) return next(new Error('List is not found.'));
+
+    list.user = list.user.capitalizeFirstLetter();
 
     req.list = list;
     return next();
@@ -90,6 +96,7 @@ app.param('item_id', function(req, res, next, itemId) {
 });
 
 app.get('/', routes.index);
+app.get('/credits', routes.credits);
 app.get('/:list_id', lists.get);
 app.post('/:list_id/item/new', items.add);
 app.post('/:list_id/item/:item_id/edit', items.edit);

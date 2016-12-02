@@ -11,9 +11,6 @@ exports.add = function(req, res, next){
   if (!req.body || !req.body.item_name) return next(new Error('No data provided.'));
   if (!req.list) return next(new Error('No such list.'));
 
-  console.log("req.body=" + JSON.stringify(req.body, null, 4));
-  console.log("req.list=" + JSON.stringify(req.list, null, 4));
-
   item = {};
   item.name = sanitize(req.body.item_name);
   if (item.name === null)
@@ -41,16 +38,5 @@ exports.add = function(req, res, next){
 }
 
 exports.edit = function(req, res, next) {
-
+  res.redirect('/' + req.list._id);
 }
-
-/*
-exports.del = function(req, res, next) {
-  req.db.wishlists.removeById(req.list._id, function(error, count) {
-    if (error) return next(error);
-    if (count !==1) return next(new Error('Something went wrong.'));
-    console.info('Deleted list %s with id=%s completed.', req.list.name, req.list._id);
-    res.status(204).send();
-  });
-};
-*/
