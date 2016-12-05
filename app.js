@@ -78,7 +78,7 @@ String.prototype.capitalizeFirstLetter = function(allWords) {
 app.param('list_id', function(req, res, next, listId) {
   req.db.wishlists.findById(listId, function(error, list){
     if (error) return next(error);
-    if (!list) return next(new Error('List is not found.'));
+    if (!list) return next();
 
     list.user = list.user.capitalizeFirstLetter();
 
