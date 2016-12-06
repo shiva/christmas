@@ -50,7 +50,7 @@ app.use(function(req, res, next) {
   req.deployed_loc = app.deployed_loc;
   next();
 })
-app.locals.appname = 'Christmas Wishlists'
+app.locals.appname = 'Wishlists'
 app.locals.moment = require('moment');
 
 app.set('port', process.env.PORT || 3000);
