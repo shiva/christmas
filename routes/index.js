@@ -13,7 +13,8 @@ exports.index = function(req, res){
     });
 
     res.render('index', {
-      title: 'WishLists',
+      title: 'Our Christmas WishLists',
+      baseurl: req.deployed_loc,
       wishlists: wishlists || []
     });
   });
@@ -21,6 +22,7 @@ exports.index = function(req, res){
 
 exports.credits = function(req, res) {
   res.render('credits', {
-    title: 'WishLists'
+    title: 'Our Christmas WishLists',
+    baseurl: req.deployed_loc
   });
 }

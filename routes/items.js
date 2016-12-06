@@ -32,11 +32,11 @@ exports.add = function(req, res, next){
           if (!cursor) return next(new Error('Failed to save.'));
 
           console.info('Added %s to list-id=%s', item.name, req.list._id);
-          res.redirect('/' + req.list._id);
+          res.redirect(req.deployed_loc + '/list/' + req.list._id);
       }
   );
 }
 
 exports.edit = function(req, res, next) {
-  res.redirect('/' + req.list._id);
+  res.redirect(req.deployed_loc + '/list/' + req.list._id);
 }

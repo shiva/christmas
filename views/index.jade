@@ -3,7 +3,7 @@ extends layout
 block content
   .ui.container
       .ui.huge.header
-        = 'Our Christmas Wishlists'
+        = title
       .ui.big.header
         = 'Click to find out what that person wishes for'
       if (!wishlists)
@@ -11,8 +11,8 @@ block content
       .ui.cards
         each list, index in wishlists
           .ui.card
-            a(href='/'+list._id).image
-              img(src='/images/profile-pics/'+list.user.toLowerCase()+'.jpg')
+            a(href=baseurl+'/list/'+list._id).image
+              img(src=baseurl+'images/profile-pics/'+list.user.toLowerCase()+'.jpg')
             .content
-              a(href='/'+list._id).header= list.name
+              a(href=baseurl+'/list/'+list._id).header= list.name
               .meta= list.items.length+' items'

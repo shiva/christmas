@@ -30,6 +30,10 @@ if (!db) {
     process.exit(1);
 }
 var app = express();
+var router = express.Router();
+
+app.deployed_loc = path.normalize(process.env.BASEURL || '/');
+console.log('deployed_location=' , app.deployed_loc);
 
 var favicon = require('serve-favicon'),
   logger = require('morgan'),
@@ -43,6 +47,7 @@ var favicon = require('serve-favicon'),
 app.use(function(req, res, next) {
   req.db = {};
   req.db.wishlists = db.collection('christmas');
+  req.deployed_loc = app.deployed_loc;
   next();
 })
 app.locals.appname = 'Christmas Wishlists'
@@ -64,8 +69,9 @@ app.use(session({
 }));
 app.use(csrf());
 
-app.use(require('less-middleware')(path.join(__dirname, 'public')));
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(app.deployed_loc, require('less-middleware')(path.join(__dirname, 'public')));
+app.use(app.deployed_loc, express.static(path.join(__dirname, 'public')));
+
 app.use(function(req, res, next) {
   res.locals._csrf = req.csrfToken();
   return next();
@@ -75,19 +81,19 @@ String.prototype.capitalizeFirstLetter = function(allWords) {
   return this.charAt(0).toUpperCase() + this.slice(1);
 }
 
-app.param('list_id', function(req, res, next, listId) {
-  req.db.wishlists.findById(listId, function(error, list){
+router.param('list_id', function(req, res, next, listId) {
+  req.db.wishlists.findById(listId, function(error, list) {
     if (error) return next(error);
-    if (!list) return next();
+    if (!list) return next(new Error('Cannot find list with id=' + listId));
 
     list.user = list.user.capitalizeFirstLetter();
-
     req.list = list;
+    console.log('list=' + req.list);
     return next();
   });
 });
 
-app.param('item_id', function(req, res, next, itemId) {
+router.param('item_id', function(req, res, next, itemId) {
   // for now, item index is the id. simply store this
   // in the req, since there is no way of uniquely identifying this
   // without a list_id
@@ -95,16 +101,18 @@ app.param('item_id', function(req, res, next, itemId) {
   return next();
 });
 
-app.get('/', routes.index);
-app.get('/credits', routes.credits);
-app.get('/:list_id', lists.get);
-app.post('/:list_id/item/new', items.add);
-app.post('/:list_id/item/:item_id/edit', items.edit);
-//app.delete('/:list_id', lists.del);
+router.get('/', routes.index);
+router.get('/credits', routes.credits);
+router.get('/list/:list_id', lists.get);
+router.post('/list/:list_id/item/new', items.add);
+router.post('/list/:list_id/item/:item_id/edit', items.edit);
 
-app.all('*', function(req, res){
+router.all('*', function(req, res){
   res.status(404).send();
 })
+
+app.use(app.deployed_loc, router);
+
 // development only
 if ('development' == app.get('env')) {
   app.use(errorHandler());
