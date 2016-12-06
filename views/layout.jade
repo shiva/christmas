@@ -6,16 +6,15 @@ html
     link(rel='stylesheet', href=baseurl+'/semantic/dist/semantic.min.css')
   body
   .container
-    .ui.sticky
-      .ui.menu
-        .ui.item
-          a(href=baseurl)
-            img(src=baseurl + '/images/app_icon.png')
-        .ui.right.dropdown.item
-          i.content.icon
-          .menu
-            .item
-              a(href='credits')= 'Credits'
+    .ui.menu
+      .ui.item
+        a(href=baseurl).ui.small.image
+          img(src=baseurl + '/images/app_icon.png')
+      .ui.right.dropdown.item
+        i.content.large.icon
+        .menu
+          .item
+            a(href='credits')= 'Credits'
 
     block content
 
