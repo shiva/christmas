@@ -9,7 +9,7 @@ block content
     .ui.items
       .item
         .content.ui.segment
-          form(id='form_item', action= baseurl + '/list/' + list._id + '/item/new', method='post').ui.form
+          form(id='form_item', action= baseurl + 'list/' + list._id + '/item/new', method='post').ui.form
             input(type='hidden', value=locals._csrf, name='_csrf').hidden
             .field
               input(id='fld_item_name', type='text', name='item_name', placeholder='Add a new item')
@@ -24,12 +24,12 @@ block content
         .ui.card
           .image
             if (!item.image_url)
-              img(src=baseurl + '/images/no_image.png')
-            else 
-              img(src=baseurl + '/' + item.image_url)
+              img(src=baseurl + 'images/no_image.png')
+            else
+              img(src=baseurl + item.image_url)
           .content
             .right.floated.content
-              a(href=baseurl + '/list/' + list._id + '/item/'+ index + '/edit')= 'edit'
+              a(href=baseurl + 'list/' + list._id + '/item/'+ index + '/edit')= 'edit'
             .header
               if (item.link)
                 a(href=item.link)= item.name

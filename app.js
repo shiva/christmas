@@ -32,7 +32,7 @@ if (!db) {
 var app = express();
 var router = express.Router();
 
-app.deployed_loc = path.normalize(process.env.BASEURL || '/');
+app.deployed_loc = path.normalize((process.env.BASEURL || '/') + '/');
 console.log('deployed_location=' , app.deployed_loc);
 
 var favicon = require('serve-favicon'),
