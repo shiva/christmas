@@ -1,12 +1,13 @@
 extends layout
 
 block content
-  .ui.container
-    h1= list.user + ' wants ...'
+  .ui.grid.container
+    .centered.row
+      h1= list.user + ' wants ...'
 
     if (!list.items)
       | No Items.
-    .ui.items
+    .ui.centered.row.items
       .item
         .content.ui.segment
           form(id='form_item', action= baseurl + 'list/' + list._id + '/item/new', method='post').ui.form
@@ -19,7 +20,7 @@ block content
               textarea(rows='2', name='item_notes', placeholder='Notes')
             input.ui.button(id='btn_submit', type="submit", value='Submit', style='display:none')
             .field(id='fld_item_close', style='display:none').ui.button= 'Close'
-    .ui.cards
+    .ui.centered.row.cards
       each item, index in list.items
         .ui.card
           .image
