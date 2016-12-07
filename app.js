@@ -105,7 +105,8 @@ router.get('/', routes.index);
 router.get('/credits', routes.credits);
 router.get('/list/:list_id', lists.get);
 router.post('/list/:list_id/item/new', items.add);
-router.post('/list/:list_id/item/:item_id/edit', items.edit);
+router.get('/list/:list_id/item/:item_id/edit', items.edit);
+router.post('/list/:list_id/item/:item_id/update', items.update);
 
 router.all('*', function(req, res){
   res.status(404).send();
