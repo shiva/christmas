@@ -1,13 +1,13 @@
 extends layout
 
 block content
-  .container
-    .centered.ui.huge.header
+  .ui.stackable.grid
+    .ui.huge.centered.header.row
         = title
     if (!wishlists)
-      .centered
+      .centered.row
       | No wishlists.
-    .ui.centered.cards
+    .ui.centered.cards.row
       each list, index in wishlists
         .ui.card
           a(href=baseurl+'list/'+list._id).image
