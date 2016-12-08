@@ -1,13 +1,10 @@
 extends layout
 
 block content
-  .ui.grid.container
+  .ui.equal.width.grid
     .centered.row
       .ui.huge.header
         = title
-    .centered.row
-      .ui.big.header
-        = 'Click to find out what that person wishes for'
     if (!wishlists)
       .centered.row
       | No wishlists.
