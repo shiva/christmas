@@ -51,6 +51,12 @@ app.use(function(req, res, next) {
   next();
 })
 app.locals.appname = 'Wishlists'
+
+var whatsapp_text =
+  'Check out <a href="shiv.me/wishlists/">Wishlists</a>' +
+  ' -- a simple way to say what you want.';
+app.locals.whatsapp_text = encodeURI(whatsapp_text);
+
 app.locals.moment = require('moment');
 
 app.set('port', process.env.PORT || 3000);

@@ -1,8 +1,9 @@
 body {
-  padding-left: 50px;
-  padding-right: 50px;
-  padding-top: 20px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  //padding-left: 50px;
+  //padding-right: 50px;
+  //padding-top: 20px;
+  /*font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;*/
+  font-family: "Roboto", "Helvetica Neue", Helvetica, Arial;
 }
 
 a {
@@ -11,4 +12,78 @@ a {
 
 div.wishlists:hover {
   background-color: #CCC;
+}
+
+div.logo-container img {
+  width: 100%;
+  height: auto;
+}
+.appbar-brand {
+    font-size: 20px;
+    color: #fff
+}
+.appbar-brand:hover {
+    text-decoration: none;
+    color: #fff
+}
+
+#appbar-more-vert {
+    width: 31px;
+    height: 31px;
+    line-height: 31px;
+    display: inline-block;
+    color: #FFF;
+    cursor: pointer;
+    text-align: center;
+    border-radius: 50%;
+}
+
+#appbar-more-vert #icon-more-vert {
+    font-size: 24px;
+    position: relative;
+    top: 3px;
+}
+
+/*
+#appbar-social-links {
+    display: inline-block;
+    position: relative;
+    top: 2px;
+}
+*/
+
+#appbar-social-links {
+    font-size: 24px;
+    display: inline-block;
+    position: relative;
+    top: 3px;
+}
+
+#appbar-social-links a {
+    margin-left: 6px;
+}
+
+
+
+#appbar {
+  color: #FFF;
+  background-color: #5C6BC0 ;
+}
+
+#header {
+  left:0;
+  right:0;
+}
+
+#nav-table {
+  width: 100%;
+  cellspacing: 0;
+}
+
+#content-wrapper {
+    min-height: 100%;
+    overflow-x: hidden;
+    margin-top: 30px;
+    margin-bottom: -160px;
+    padding-bottom: 160px
 }

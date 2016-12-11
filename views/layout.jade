@@ -2,22 +2,40 @@ doctype html
 html
   head
     title= title + ' | '  + appname
+    meta(charset='utf-8')
+    meta(http-equiv='X-UA-Compatible', content='IE=edge')
+    meta(name='viewport',content='width=device-width, initial-scale=1')
     link(rel='stylesheet', href=baseurl+'stylesheets/style.css')
+    link(rel='stylesheet', href=baseurl+'font-awesome/css/font-awesome.min.css')
+    link(rel='stylesheet', href='//fonts.googleapis.com/css?family=Roboto:300,400,500,700')
+    link(rel='stylesheet', href='//cdn.muicss.com/mui-0.9.6/css/mui.min.css')
     link(rel='stylesheet', href=baseurl+'semantic/dist/semantic.min.css')
     meta(name='viewport', content='width=device-width,initial-scale=1.0')
   body
-    .container
-      .ui.menu
-        .ui.item
-          a(href=baseurl).ui.tiny.image
-            img(src=baseurl + 'images/app_icon.png')
-        .ui.right.dropdown.item
-          i.content.large.icon
-          .menu
-            .item
-              a(href='credits')= 'Credits'
+    header(id='header').header-shadow
+        nav(id='appbar').mui-container-fluid
+          table(id='nav-table')
+            tbody
+              tr.mui--appbar-height
+                td
+                  a(href=baseurl).appbar-brand= 'Our Christmas Wishlists'
+                td.mui--text-right
+                  .mui--hidden-xs(id='appbar-social-links')
+                    a(href='https://twitter.com/shiva')
+                      i.fa.fa-twitter
+                    a(href='whatsapp://send?text=' + whatsapp_text)
+                      i.fa.fa-whatsapp(aria-hidden='true')
+                  .mui-dropdown
+                    a(id='appbar-more-vert', data-mui-toggle='dropdown')
+                      i(id='icon-more-vert').fa.fa-ellipsis-v(aria-hidden='true')
+                    ul.mui-dropdown__menu.mui-dropdown__menu--right
+                      li
+                        a(href='credits')= 'Credits'
+
+    div(id='content-wrapper')
       block content
 
   script(src=baseurl+'javascripts/jquery.js', type='text/javascript')
   script(src=baseurl+'javascripts/main.js', type='text/javascript')
   script(src=baseurl+'semantic/dist/semantic.min.js', type='text/javascript')
+  script(src='//cdn.muicss.com/mui-0.9.6/js/mui.min.js', type='text/javascript')

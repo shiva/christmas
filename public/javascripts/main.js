@@ -41,11 +41,4 @@ $(document).ready(function() {
     $('#fld_item_close').hide()
   })
 
-  $('.ui.right.dropdown')
-    .dropdown()
-  ;
-
-  $('.ui.sticky')
-    .sticky()
-  ;
 })
