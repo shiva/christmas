@@ -53,7 +53,7 @@ app.use(function(req, res, next) {
 app.locals.appname = 'Wishlists'
 
 var whatsapp_text =
-  'Check out <a href="shiv.me/wishlists/">Wishlists</a>' +
+  'Check out the wishlists app at http://shiv.me/wishlists' +
   ' -- a simple way to say what you want.';
 app.locals.whatsapp_text = encodeURI(whatsapp_text);
 
