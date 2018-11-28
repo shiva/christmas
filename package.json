@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "start": "node -r dotenv/config ./bin/www",
-    "compile": "lessc -x public/stylesheets/main.less public/stylesheets/main.css"
+    "compile": "lessc -x public/stylesheets/main.less public/stylesheets/main.css",
+    "backup-db": "mongoexport -h ds050869.mlab.com:50869 -d wishlists -c christmas -u ${DB_USER} -p ${DB_PASSWD} -o christmas.json"
   },
   "dependencies": {
     "body-parser": "~1.15.2",
