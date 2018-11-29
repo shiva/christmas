@@ -81,8 +81,7 @@ var strategy = new Auth0Strategy({
     domain: process.env.AUTH0_DOMAIN,
     clientID: process.env.AUTH0_CLIENT_ID,
     clientSecret: process.env.AUTH0_CLIENT_SECRET,
-    callbackURL:
-    process.env.AUTH0_CALLBACK_URL || 'http://localhost:3000/callback'
+    callbackURL: process.env.AUTH0_CALLBACK_URL || 'http://localhost:3000/callback'
   },
   function(accessToken, refreshToken, extraParams, profile, done) {
     // accessToken is the token to call Auth0 API (not needed in the most cases)
@@ -150,24 +149,24 @@ router.get('/', routes.index);
 router.get('/login', passport.authenticate('auth0', {
   scope: 'openid email profile'
 }), (req, res) => {
-    res.redirect("/dashboard");
+    res.redirect(app.locals.baseurl + 'dashboard');
 });
 
 router.get('/logout', (req, res)=>{
   // For the logout page, we don't need to render a page, we just want the user to be logged out when they hit this page. We'll use the ExpressJS built in logout method, and then we'll redirect the user back to the homepage.
   req.logout();
-  res.redirect('/');
+  res.redirect(app.locals.baseurl);
 });
 
 router.get('/callback', function (req, res, next) {
   passport.authenticate('auth0', function (err, user, info) {
     if (err) { return next(err); }
-    if (!user) { return res.redirect('/login'); }
+    if (!user) { return res.redirect(app.locals.baseurl + 'login'); }
     req.logIn(user, function (err) {
       if (err) { return next(err); }
       const returnTo = req.session.returnTo;
       delete req.session.returnTo;
-      res.redirect(returnTo || '/dashboard');
+      res.redirect(returnTo || app.locals.baseurl + 'dashboard');
     });
   })(req, res, next);
 });
