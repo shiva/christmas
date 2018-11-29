@@ -1,8 +1,18 @@
 
-exports.index = function(req, res){
+exports.index = function(req, res) {
+  console.log("deployed_loc: ", req.deployed_loc)
+  return res.render('index', {
+    title: 'Wishlists'
+ });
+}
+
+exports.dashboard = function(req, res){
   req.db.wishlists.find().toArray(function(error, wishlists){
     if (error)
-        return res.render('index', { title: 'Wishlists' });
+        return res.render('dashboard', {
+          title: 'Our Christmas WishLists',
+          wishlists: []
+        });
 
     wishlists.sort(function(a, b){
       var a_name = a.user.toLowerCase()
@@ -12,17 +22,21 @@ exports.index = function(req, res){
       return 0;
     });
 
-    res.render('index', {
+    res.render('dashboard', {
       title: 'Our Christmas WishLists',
-      baseurl: req.deployed_loc,
       wishlists: wishlists || []
     });
   });
-};
+}
+
+exports.profile = function(req, res) {
+  res.render('profile', {
+    title: 'Our Christmas WishLists'
+  });
+}
 
 exports.credits = function(req, res) {
   res.render('credits', {
-    title: 'Our Christmas WishLists',
-    baseurl: req.deployed_loc
+    title: 'Our Christmas WishLists'
   });
 }

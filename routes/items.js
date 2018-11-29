@@ -54,7 +54,6 @@ exports.edit = function(req, res, next) {
 
   res.render('item', {
     title: 'Our Christmas WishLists',
-    baseurl: req.deployed_loc,
     list_id: req.list._id,
     item: item
   });

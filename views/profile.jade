@@ -1,0 +1,11 @@
+extends layout
+
+block content
+  .ui.container
+      .ui.message
+        .header= 'Your Profile'
+        ul.list
+        if user
+          li #{user.id}
+          li #{user.displayName}
+          li #{user.picture}

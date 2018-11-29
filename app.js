@@ -5,6 +5,9 @@ var items = require('./routes/items');
 var http = require('http');
 var path = require('path');
 var mongoskin = require('mongoskin');
+var passport = require('passport');
+var Auth0Strategy = require('passport-auth0');
+var ensureLoggedIn = require('connect-ensure-login').ensureLoggedIn();
 
 var check_credentials = function () {
     if (!process.env.DB_USER || !process.env.DB_PASSWD ||
@@ -32,8 +35,8 @@ if (!db) {
 var app = express();
 var router = express.Router();
 
-app.deployed_loc = path.normalize((process.env.BASEURL || '/') + '/');
-console.log('deployed_location=' , app.deployed_loc);
+app.locals.baseurl = path.normalize((process.env.BASEURL || '/') + '/');
+console.log('baseurl=' , app.locals.baseurl);
 
 var favicon = require('serve-favicon'),
   logger = require('morgan'),
@@ -47,7 +50,6 @@ var favicon = require('serve-favicon'),
 app.use(function(req, res, next) {
   req.db = {};
   req.db.wishlists = db.collection('christmas');
-  req.deployed_loc = app.deployed_loc;
   next();
 })
 app.locals.appname = 'Wishlists'
@@ -75,13 +77,49 @@ app.use(session({
 }));
 app.use(csrf());
 
-app.use(app.deployed_loc, require('less-middleware')(path.join(__dirname, 'public')));
-app.use(app.deployed_loc, express.static(path.join(__dirname, 'public')));
+var strategy = new Auth0Strategy({
+    domain: process.env.AUTH0_DOMAIN,
+    clientID: process.env.AUTH0_CLIENT_ID,
+    clientSecret: process.env.AUTH0_CLIENT_SECRET,
+    callbackURL:
+    process.env.AUTH0_CALLBACK_URL || 'http://localhost:3000/callback'
+  },
+  function(accessToken, refreshToken, extraParams, profile, done) {
+    // accessToken is the token to call Auth0 API (not needed in the most cases)
+    // extraParams.id_token has the JSON Web Token
+    // profile has all the information from the user
+    return done(null, profile);
+  }
+);
+
+passport.use(strategy);
+
+app.use(passport.initialize());
+app.use(passport.session());
+
+app.use(app.locals.baseurl, require('less-middleware')(path.join(__dirname, 'public')));
+app.use(app.locals.baseurl, express.static(path.join(__dirname, 'public')));
 
 app.use(function(req, res, next) {
   res.locals._csrf = req.csrfToken();
   return next();
 })
+
+app.get('*', function(req, res, next) {
+  // put user into res.locals for easy access from templates
+  res.locals.user = req.user || null;
+  console.log("User: ", res.locals.user);
+  next();
+});
+
+passport.serializeUser(function (user, done) {
+  done(null, user);
+});
+
+passport.deserializeUser(function (user, done) {
+  done(null, user);
+});
+
 
 String.prototype.capitalizeFirstLetter = function(allWords) {
   return this.charAt(0).toUpperCase() + this.slice(1);
@@ -107,18 +145,46 @@ router.param('item_id', function(req, res, next, itemId) {
   return next();
 });
 
+
 router.get('/', routes.index);
+router.get('/login', passport.authenticate('auth0', {
+  scope: 'openid email profile'
+}), (req, res) => {
+    res.redirect("/dashboard");
+});
+
+router.get('/logout', (req, res)=>{
+  // For the logout page, we don't need to render a page, we just want the user to be logged out when they hit this page. We'll use the ExpressJS built in logout method, and then we'll redirect the user back to the homepage.
+  req.logout();
+  res.redirect('/');
+});
+
+router.get('/callback', function (req, res, next) {
+  passport.authenticate('auth0', function (err, user, info) {
+    if (err) { return next(err); }
+    if (!user) { return res.redirect('/login'); }
+    req.logIn(user, function (err) {
+      if (err) { return next(err); }
+      const returnTo = req.session.returnTo;
+      delete req.session.returnTo;
+      res.redirect(returnTo || '/dashboard');
+    });
+  })(req, res, next);
+});
+
+router.get('/dashboard', ensureLoggedIn, routes.dashboard);
 router.get('/credits', routes.credits);
-router.get('/list/:list_id', lists.get);
-router.post('/list/:list_id/item/new', items.add);
-router.get('/list/:list_id/item/:item_id/edit', items.edit);
-router.post('/list/:list_id/item/:item_id/update', items.update);
+router.get('/profile', routes.profile);
+router.get('/list/:list_id', ensureLoggedIn, lists.get);
+router.post('/list/:list_id/item/new', ensureLoggedIn, items.add);
+router.get('/list/:list_id/item/:item_id/edit', ensureLoggedIn, items.edit);
+router.post('/list/:list_id/item/:item_id/update', ensureLoggedIn, items.update);
 
 router.all('*', function(req, res){
   res.status(404).send();
 })
 
-app.use(app.deployed_loc, router);
+app.use(app.locals.baseurl, router);
 
 // development only
 if ('development' == app.get('env')) {

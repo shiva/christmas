@@ -1,0 +1,15 @@
+extends layout
+
+block content
+  .ui.stackable.grid
+    if (!wishlists)
+      .centered.row
+      | No wishlists.
+    .ui.centered.cards.row
+      each list, index in wishlists
+        .ui.card
+          a(href=baseurl+'list/'+list._id).image
+            img(src=baseurl+'images/profile-pics/'+list.user.toLowerCase()+'.jpg')
+          .content
+            a(href=baseurl+'list/'+list._id).header= list.name
+            .meta= list.items.length+' items'

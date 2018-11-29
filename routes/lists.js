@@ -2,7 +2,6 @@ exports.get = function(req, res, next){
   if (!req.list) return next(new Error('List is not found.'));
   res.render('list', {
     title: 'Our Christmas WishLists',
-    baseurl: req.deployed_loc,
     list: req.list
   });
 };

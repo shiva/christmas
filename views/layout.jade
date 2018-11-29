@@ -18,7 +18,7 @@ html
             tbody
               tr.mui--appbar-height
                 td
-                  a(href=baseurl).appbar-brand= 'Our Christmas Wishlists'
+                  a(href=baseurl+'dashboard').appbar-brand= 'Our Christmas Wishlists'
                 td.mui--text-right
                   .mui--hidden-xs(id='appbar-social-links')
                     a(href='https://twitter.com/shiva')
@@ -30,7 +30,12 @@ html
                       i(id='icon-more-vert', aria-hidden='true').fa.fa-ellipsis-v
                     ul.mui-dropdown__menu.mui-dropdown__menu--right
                       li
-                        a(href='credits')= 'Credits'
+                        a(href=baseurl+'credits')= 'Credits'
+                      if locals.user
+                        li
+                          a(href=baseurl+'profile')= 'Profile'
+                        li
+                          a(href=baseurl+'logout')= 'Logout'
 
     div(id='content-wrapper')
       block content
@@ -38,4 +43,5 @@ html
   script(src=baseurl+'javascripts/jquery.js', type='text/javascript')
   script(src=baseurl+'javascripts/main.js', type='text/javascript')
   script(src=baseurl+'semantic/dist/semantic.min.js', type='text/javascript')
+  script(src=baseurl+'node_modules/auth0-js/build/auth0.js', type='text/javascript')
   script(src='//cdn.muicss.com/mui-0.9.6/js/mui.min.js', type='text/javascript')
