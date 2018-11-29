@@ -1,6 +1,5 @@
 
 exports.index = function(req, res) {
-  console.log("deployed_loc: ", req.deployed_loc)
   return res.render('index', {
     title: 'Wishlists'
  });
