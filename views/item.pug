@@ -8,12 +8,12 @@ block content
           form(id='form_item', action= baseurl + 'list/' + list_id + '/item/' + item.idx + '/update', method='post').ui.form
             input(type='hidden', value=locals._csrf, name='_csrf').hidden
             .field
-              input(id='fld_item_name', type='text', name='item_name', value='#{item.name}')
+              input(id='fld_item_name', type='text', name='item_name', value=item.name)
             .field(id='fld_item_link')
               if (!item.link)
                 input(type='text', name='item_link')
               else
-                input(type='text', name='item_link', value='#{item.link}')
+                input(type='text', name='item_link', value=item.link)
             .field(id='fld_item_notes')
               textarea(rows='2', name='item_notes')
                 = item.notes
